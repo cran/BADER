@@ -52,9 +52,6 @@ Andreas Neudecker
 \examples{
 set.seed(21)
 
-## count tables
-kA <- kB <- matrix(NA,3,100)
-
 ## log mean expression
 muA <- rnorm(100,4,1)
 gam <- c(rnorm(10,0,2),rep(0,90))
@@ -63,16 +60,14 @@ muB <- muA + gam
 ## log dispersion
 alphaA <- alphaB <- rnorm(100,-2,1)
 
-kA[1,] <- rnbinom(100,mu=exp(muA),size=exp(-alphaA))
-kA[2,] <- rnbinom(100,mu=exp(muA),size=exp(-alphaA))
-kA[3,] <- rnbinom(100,mu=exp(muA),size=exp(-alphaA))
-
-
-kB[1,] <- rnbinom(100,mu=exp(muB),size=exp(-alphaB))
-kB[2,] <- rnbinom(100,mu=exp(muB),size=exp(-alphaB))
-kB[3,] <- rnbinom(100,mu=exp(muB),size=exp(-alphaB))
+kA <- matrix(rnbinom(300,mu=exp(muA),size=exp(-alphaA)),nrow=3,byrow=TRUE)
+kB <- matrix(rnbinom(300,mu=exp(muB),size=exp(-alphaB)),nrow=3,byrow=TRUE)
 
 results <- BADER(kA,kB,burn=1000,reps=2000)
+
+\dontrun{
+plot(results$diffProb,xlab="Index",ylab="posterior DE prob.")
+}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
